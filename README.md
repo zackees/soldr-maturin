@@ -1,4 +1,15 @@
-# Maturin
+# soldr-maturin
+
+This is Soldr's narrowly scoped downstream distribution of
+[maturin](https://github.com/PyO3/maturin). It preserves the `maturin` command
+and Python build-backend interface while carrying fixes needed by Soldr's
+externally prepared cross-compilation toolchains.
+
+Install the downstream distribution with `uv tool install soldr-maturin` or
+`pipx install soldr-maturin`. Changes are kept as a small patch series suitable
+for submission upstream.
+
+## Upstream maturin
 
 _formerly pyo3-pack_
 

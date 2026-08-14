@@ -735,6 +735,15 @@ fn configure_debuginfo_flags(
 }
 
 /// Create the build command using the appropriate backend (xwin, zig, or plain cargo).
+#[cfg(feature = "xwin")]
+fn should_use_xwin(native_compile: bool, policy: Option<&str>) -> bool {
+    match policy {
+        Some("0") => false,
+        Some("1") => true,
+        _ => !native_compile,
+    }
+}
+
 fn create_build_command(
     context: &BuildContext,
     cargo_rustc: cargo_options::Rustc,
@@ -756,8 +765,8 @@ fn create_build_command(
                     .cargo_output(false)
                     .try_get_compiler()
                     .is_ok();
-            let force_xwin = env::var("MATURIN_USE_XWIN").ok().as_deref() == Some("1");
-            if !native_compile || force_xwin {
+            let xwin_policy = env::var("MATURIN_USE_XWIN").ok();
+            if should_use_xwin(native_compile, xwin_policy.as_deref()) {
                 println!("🛠️ Using xwin for cross-compiling to {target_triple}");
                 let xwin_options = {
                     use clap::Parser;
@@ -1261,4 +1270,17 @@ fn pyo3_version(cargo_metadata: &cargo_metadata::Metadata) -> Option<(u64, u64, 
         .get("pyo3")
         .or_else(|| packages.get("pyo3-ffi"))
         .map(|pkg| (pkg.version.major, pkg.version.minor, pkg.version.patch))
+}
+
+#[cfg(all(test, feature = "xwin"))]
+mod tests {
+    use super::should_use_xwin;
+
+    #[test]
+    fn xwin_selection_honors_explicit_policy() {
+        assert!(should_use_xwin(false, None));
+        assert!(!should_use_xwin(true, None));
+        assert!(should_use_xwin(true, Some("1")));
+        assert!(!should_use_xwin(false, Some("0")));
+    }
 }

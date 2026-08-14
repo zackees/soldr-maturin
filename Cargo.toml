@@ -1,7 +1,7 @@
 [package]
 authors = ["konstin <konstin@mailbox.org>", "messense <messense@icloud.com>"]
 name = "maturin"
-version = "1.14.1"
+version = "1.14.1-post.1"
 description = "Build and publish crates with pyo3, cffi and uniffi bindings as well as rust binaries as python packages"
 exclude = [
     "test-crates/**/*",
@@ -237,8 +237,5 @@ opt-level = 3
 # Speedup cargo-xwin for debug builds
 [profile.dev.package.cab]
 opt-level = 3
-
-# Keep this fork self-contained when checked out below another Cargo workspace.
-[workspace]
 [profile.dev.package.msi]
 opt-level = 3
