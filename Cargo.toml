@@ -237,5 +237,8 @@ opt-level = 3
 # Speedup cargo-xwin for debug builds
 [profile.dev.package.cab]
 opt-level = 3
+
+# Keep this fork self-contained when checked out below another Cargo workspace.
+[workspace]
 [profile.dev.package.msi]
 opt-level = 3
