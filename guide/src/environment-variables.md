@@ -75,7 +75,7 @@ Config-settings take priority over `MATURIN_PEP517_ARGS`; the environment variab
 * `MATURIN_STRIP`: Strip the library for minimum file size
 * `MATURIN_PGO`: Build with Profile-Guided Optimization (same as `--pgo`), works with `maturin build`, `maturin develop` and PEP 517 builds (e.g. `pip install .`). Set to `0`, `false`, `no` or `off` to disable, any other value enables it
 * `MATURIN_NO_MISSING_BUILD_BACKEND_WARNING`: Suppress missing build backend warning
-* `MATURIN_USE_XWIN`: Set to `1` to force to use `xwin` for cross compiling even on Windows that supports native compilation
+* `MATURIN_USE_XWIN`: Set to `1` to force `xwin` for Windows MSVC cross compilation, or `0` to use ordinary Cargo with a compiler environment prepared externally. If unset, maturin uses `xwin` when native compilation is unavailable.
 * `ANDROID_API_LEVEL`: The Android API level to target when cross compiling for Android
 * `TARGET_SYSROOT`: The sysroot to use for auditwheel wheel when cross compiling
 * `ARCHFLAGS`: Flags to control the architecture of the build on macOS, for example you can use `ARCHFLAGS="-arch x86_64 -arch arm64"` to build universal2 wheels
